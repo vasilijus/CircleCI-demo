@@ -1,12 +1,11 @@
 version: 2.1
-orbs:
-  slack: circleci/slack@4.0
 
 jobs:
   build:
     working_directory: ~/circleci-python
     docker:
       - image: "circleci/python:3.6.4"
+    resource_class: small
     steps:
       - checkout
       - run: python main.py
@@ -17,14 +16,6 @@ jobs:
     steps:
       - checkout
       - run: python mainTest.py
-      # In the event the deployment has failed, alert the engineering team
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-          mentions: "@engeneerTeam_Sergio"
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
 
 workflows:
   build_and_test:
